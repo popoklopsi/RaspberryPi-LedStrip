@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/rgb/thumb/led_1.jpg",
+    "image": "img/rgb/small/led_1.jpg",
+    "big": "img/rgb/led_1.jpg",
+    "description": "Connecting the LED-Strip to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/led_2.jpg",
+    "image": "img/rgb/small/led_2.jpg",
+    "big": "img/rgb/led_2.jpg",
+    "description": "Connecting the LED-Strip to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/led_3.png",
+    "image": "img/rgb/small/led_3.png",
+    "big": "img/rgb/led_3.png",
+    "description": "Connecting the LED-Strip to the breadboard"
+  }
+]

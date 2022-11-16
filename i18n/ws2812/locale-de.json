@@ -1,0 +1,77 @@
+{
+  "ws2812": {
+    "header": {
+      "title": "Raspberry Pi &<br /> WS2812 Strips (Neopixel)",
+      "subtitle": "Steuerung eines WS2812 Strip mit einem Raspberry Pi"
+    },
+    "intro": {
+      "title": "Einleitung",
+      "text": "Dieses Tutorial erklärt euch, wie man ein <strong>WS2812</strong> (WS2812B) LED Strip (oder Neopixel Strip) mit dem Raspberry Pi steuert. Es sollte auf allen aktuellen Raspberry Pi Modellen laufen.",
+      "responsible": "<strong>Achtung:</strong> Ich bin nicht für Schäden an deinem LED-Strip oder Raspberry Pi verantworlich. <strong>Mach das auf eigenes Risiko!</strong>"
+    },
+    "requirements": {
+      "title": "Was brauchst Du?",
+      "ws2812led": "Ein WS2812 LED Strip (<strong>mit 1 Pin für 5V DC, 1 Pin für Data und 1 Pin für Ground<strong>)",
+      "breadboard": "Ein Steckbrett",
+      "jumpmatofe": "Steckbrücken (Male zu Female)",
+      "jumpmatoma": "Steckbrücken (Male zu Male)",
+      "shifter": "Ein Level Shifter, um die 3.3V in 5V umzuwandeln (z.B <strong>74HCT125P</strong>)",
+      "powersupply": "Ein Netzteil mit genügend Power (<strong>5V DC ~4A</strong>)",
+      "powerone": "Eine LED kann bis zu 60mA verbrauchen",
+      "powerall": "Bei z.B 60 LEDs wären das 3600mA",
+      "powerjack": "Eine Niedervolt Buchse",
+      "fitto": "Muss zum Netzteil Stecker passen",
+      "withwires": "Ich verwende eine mit Schrauben, damit ich es leichter verbinden kann",
+      "software": "Die <a href=\"https://github.com/richardghirst/rpi_ws281x\" title=\"WS2812X Bibliothek\" target=\"_blank\"><strong>WS281X Bibliothek</strong></a> auf dem Raspberry Pi installiert",
+      "download": "Downloade die Bibliothek oder klone sie mit <code>git clone https://github.com/richardghirst/rpi_ws281x</code> und wechsel ins Verzeichnis",
+      "scons": "Installiere <strong>Scons</strong> mit dem Befehl <code>sudo apt-get install scons</code>",
+      "install": "Compiliere die Bibliothek mit <code>sudo scons</code>",
+      "softwarepython": "Gehe anschließend in das Python Verzeichnis und führe <code>sudo python setup.py install</code> aus"
+  },
+    "shifter": {
+      "connect": "1. Den Level Shifter verbinden",
+      "ontobreadboard": "Stecke den Level Shifter so in die Mitte des Steckbretts, dass der kleine Halbkreis nach links zeigt",
+      "toground": "Danach verbinde den ersten Pin von unten links und den ersten Pin von unten rechts mit den Ground-Bus des Steckbretts",
+      "tovoltage": "Verbinde außerdem den ersten Pin von oben links mit dem Spannungs-Bus des Steckbretts"
+    },
+    "pi": {
+      "connect": "2. Das Raspberry Pi verbinden",
+      "pins": "Hier ist eine Übersicht über die GPIO Pins des Raspberry Pi:",
+      "ground": "Verbinde zuerst einen der Ground Pins mit dem Ground-Bus des Steckbretts",
+      "connect18": "Verbinde danach den <strong>GPIO18 Pin</strong> mit dem zweiten Pin von unten rechts auf dem Steckbrett"
+    },
+    "power": {
+      "connect": "3. Die Niedervolt Buchse verbinden",
+      "fasten": "Verschraube ein Kabel mit dem Ground und eines mit dem Spannungskontakt der Buchse",
+      "ground": "Verbinde Das Ground Kabel mit dem Ground-Bus des Steckbretts",
+      "voltage": "Danach verbinde das Spannungs Kabel mit dem Spannungs-Bus des Steckbretts",
+      "power": "Außerdem verbinde das Netzteil mit der Niedervolt Buchse",
+      "plugin": "Stecke anschließend das Netzteil in die Steckdose"
+    },
+    "led": {
+      "connect": "4. Den WS2812 LED-Strip verbinden",
+      "connectground": "Verbinde zuerst den Ground Pin des Strips mit dem Ground-Bus des Steckbretts",
+      "connectdata": "Danach verbinde den Data Pin des Strips mit dem dritten Pin von unten rechts auf dem Steckbrett",
+      "inin": "Es ist wichtig, dass du den <strong>D<sub>i</sub></strong> Pin verbindest, also den Pin in Pfeilrichtung",
+      "connectvoltage": "Stecke außerdem ein Kabel vom 5V Pin des LED-Strips zum Spannungs-Bus des Steckbretts"
+    },
+    "finished": {
+      "title": "5. Fertig"
+    },
+    "testing": {
+      "title": "6. Testen",
+      "strandtest": "In der WS281X Bibliothek findest du eine <a href=\"https://raw.githubusercontent.com/richardghirst/rpi_ws281x/master/python/examples/strandtest.py\" title=\"strandtest.py\" target=\"_blank\">strandtest.py</a>",
+      "configure": "Setze dort die <strong>LED_COUNT</strong> Variable auf die Anzahl der LED's deines Strips",
+      "start": "Dann starte den Test mit <code>sudo python strandtest.py</code>",
+      "see": "Jetzt solltest du ganze viele verschiedene Effekte zu sehen bekommen"
+    },
+    "next": {
+      "title": "Was nun?",
+      "doeverything": "Jetzt kannst du so gut wie alles mit deinem WS2812 LED-Strip machen",
+      "python": "Zum Beispiel mit Python den LED-Strip leuchten lassen",
+      "brightness": "Die Helligkeit und Farbe eines Pins kannst du mit den folgenden Befehlen setzen:",
+      "comments": "Ich hoffe dir hat diese Anleitung gefallen. Sollten Fragen oder Anmerkungen bestehen, schreibe einfach einen Kommentar.",
+      "contact": "Oder <a href=\"mailto:info@popoklopsi.de\">kontaktiere mich</a>, falls irgendwelche Fehler vorhanden sind."
+    }
+  }
+}

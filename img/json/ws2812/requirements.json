@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/requirement_1.jpg",
+    "image": "img/ws2812/small/requirement_1.jpg",
+    "big": "img/ws2812/requirement_1.jpg",
+    "description": "The requirements to control a ws2812 Strip with a Raspberry Pi"
+  },
+  {
+    "thumb": "img/ws2812/thumb/requirement_2.jpg",
+    "image": "img/ws2812/small/requirement_2.jpg",
+    "big": "img/ws2812/requirement_2.jpg",
+    "description": "The requirements to control a ws2812 Strip with a Raspberry Pi"
+  },
+  {
+    "thumb": "img/ws2812/thumb/requirement_3.jpg",
+    "image": "img/ws2812/small/requirement_3.jpg",
+    "big": "img/ws2812/requirement_3.jpg",
+    "description": "The requirements to control a ws2812 Strip with a Raspberry Pi"
+  }
+]

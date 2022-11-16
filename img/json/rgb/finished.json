@@ -1,0 +1,14 @@
+[
+  {
+    "thumb": "img/rgb/thumb/finished_1.jpg",
+    "image": "img/rgb/small/finished_1.jpg",
+    "big": "img/rgb/finished_1.jpg",
+    "description": "The finished system"
+  },
+  {
+    "thumb": "img/rgb/thumb/finished_2.jpg",
+    "image": "img/rgb/small/finished_2.jpg",
+    "big": "img/rgb/finished_2.jpg",
+    "description": "The finished system"
+  }
+]

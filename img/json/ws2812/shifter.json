@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/shifter_1.jpg",
+    "image": "img/ws2812/small/shifter_1.jpg",
+    "big": "img/ws2812/shifter_1.jpg",
+    "description": "Connecting the level shifter to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/shifter_2.jpg",
+    "image": "img/ws2812/small/shifter_2.jpg",
+    "big": "img/ws2812/shifter_2.jpg",
+    "description": "Connecting the level shifter to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/shifter_3.png",
+    "image": "img/ws2812/small/shifter_3.png",
+    "big": "img/ws2812/shifter_3.png",
+    "description": "Connecting the level shifter to the breadboard"
+  }
+]

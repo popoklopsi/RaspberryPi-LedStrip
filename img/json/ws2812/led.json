@@ -1,0 +1,26 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/led_1.jpg",
+    "image": "img/ws2812/small/led_1.jpg",
+    "big": "img/ws2812/led_1.jpg",
+    "description": "Connecting the LED-Strip to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/requirement_2.jpg",
+    "image": "img/ws2812/small/requirement_2.jpg",
+    "big": "img/ws2812/requirement_2.jpg",
+    "description": "Connecting the LED-Strip to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/led_2.jpg",
+    "image": "img/ws2812/small/led_2.jpg",
+    "big": "img/ws2812/led_2.jpg",
+    "description": "Connecting the LED-Strip to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/led_3.png",
+    "image": "img/ws2812/small/led_3.png",
+    "big": "img/ws2812/led_3.png",
+    "description": "Connecting the LED-Strip to the breadboard"
+  }
+]

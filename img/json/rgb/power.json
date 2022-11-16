@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/rgb/thumb/power_1.jpg",
+    "image": "img/rgb/small/power_1.jpg",
+    "big": "img/rgb/power_1.jpg",
+    "description": "Connecting the power supply to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/power_2.jpg",
+    "image": "img/rgb/small/power_2.jpg",
+    "big": "img/rgb/power_2.jpg",
+    "description": "Connecting the power supply to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/power_3.png",
+    "image": "img/rgb/small/power_3.png",
+    "big": "img/rgb/power_3.png",
+    "description": "Connecting the power supply to the breadboard"
+  }
+]

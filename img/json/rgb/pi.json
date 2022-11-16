@@ -1,0 +1,26 @@
+[
+  {
+    "thumb": "img/rgb/thumb/pi_1.jpg",
+    "image": "img/rgb/small/pi_1.jpg",
+    "big": "img/rgb/pi_1.jpg",
+    "description": "Connecting the Raspberry Pi to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/pi_2.jpg",
+    "image": "img/rgb/small/pi_2.jpg",
+    "big": "img/rgb/pi_2.jpg",
+    "description": "Connecting the Raspberry Pi to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/pi_3.jpg",
+    "image": "img/rgb/small/pi_3.jpg",
+    "big": "img/rgb/pi_3.jpg",
+    "description": "Connecting the Raspberry Pi to the breadboard"
+  },
+  {
+    "thumb": "img/rgb/thumb/pi_4.png",
+    "image": "img/rgb/small/pi_4.png",
+    "big": "img/rgb/pi_4.png",
+    "description": "Connecting the Raspberry Pi to the breadboard"
+  }
+]

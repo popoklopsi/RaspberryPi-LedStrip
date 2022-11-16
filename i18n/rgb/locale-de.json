@@ -1,0 +1,80 @@
+{
+  "rgb": {
+    "header": {
+      "title": "Raspberry Pi &<br /> RGB LED-Strips",
+      "subtitle": "Steuerung eines RGB LED-Strip mit einem Raspberry Pi"
+    },
+    "intro": {
+      "title": "Einleitung",
+      "text": "Dieses Tutorial erklärt euch, wie man ein <strong>RGB LED-Strip</strong> mit dem Raspberry Pi steuert. Es sollte auf allen aktuellen Raspberry Pi Modellen laufen.",
+      "responsible": "<strong>Achtung:</strong> Ich bin nicht für Schäden an deinem LED-Strip oder Raspberry Pi verantworlich. <strong>Mach das auf eigenes Risiko!</strong>"
+    },
+    "requirements": {
+      "title": "Was brauchst Du?",
+      "rgbled": "Ein RGB LED Strip (<strong>mit 3 Pins für RGB und 1 Pin für 12V DC<strong>)",
+      "breadboard": "Ein Steckbrett",
+      "jumpmatofe": "Steckbrücken (Male zu Female)",
+      "jumpmatoma": "Steckbrücken (Male zu Male)",
+      "threemosfets": "Drei MOSFET's (z.B <strong>IRLZ34N</strong>)",
+      "powersupply": "Ein Netzteil (<strong>12V DC ~2A</strong>)",
+      "powerjack": "Eine Niedervolt Buchse",
+      "fitto": "Muss zum Netzteil Stecker passen",
+      "withwires": "Ich verwende eine mit Schrauben, damit ich es leichter verbinden kann",
+      "software": "Die Software <a href=\"http://abyz.co.uk/rpi/pigpio/download.html\" title=\"pigpio\" target=\"_blank\"><strong>pigpio</strong></a> auf dem Raspberry Pi installiert"
+    },
+    "mosfet": {
+      "connect": "1. Die MOSFET's verbinden",
+      "look": "Schaust du <strong>von vorne</strong> auf die MOSFETs",
+      "firstpin": "ist der erste Pin von links der <strong>Gate</strong> Pin",
+      "secondpin": "ist der zweite Pin der <strong>Drain</strong> Pin",
+      "thirdpin": "ist der dritte Pin der <strong>Source</strong> Pin",
+      "ontobreadboard": "Stecke zuerst alle drei MOSFET's auf das Steckbrett",
+      "toground": "Danach verbinde die Source Pins mit den Ground-Bus des Steckbretts"
+    },
+    "led": {
+      "connect": "2. Den LED-Strip verbinden",
+      "connectcolor": "Verbinde für jede Farbe den <strong>Drain</strong> Pin mit der jeweiligen Farbe des LED-Strips",
+      "supply": "Stecke außerdem ein Kabel vom 12V Pin des LED-Strips zum Spannungs-Bus des Steckbretts"
+    },
+    "pi": {
+      "connect": "3. Das Raspberry Pi verbinden",
+      "pins": "Hier ist eine Übersicht über die GPIO Pins des Raspberry Pi:",
+      "breadboard": "Verbinde zuerst einen der Ground Pins mit dem Ground-Bus des Steckbretts",
+      "connectcolor": "Verbinde außerdem für jede Farbe einen der grünen Pins mit dem <strong>Gate</strong> Pin eines MOSFETs",
+      "hereused": "Ich werde folgende Pins benutzen:",
+      "forred": "<strong>GPIO17</strong> für Rot",
+      "forgreen": "<strong>GPIO22</strong> für Grün",
+      "forblue": "<strong>GPIO24</strong> für Blau"
+    },
+    "power": {
+      "connect": "4. Die Niedervolt Buchse verbinden",
+      "fasten": "Verschraube ein Kabel mit dem Ground und eines mit dem Spannungskontakt der Buchse",
+      "ground": "Verbinde das Ground Kabel mit dem Ground-Bus des Steckbretts",
+      "voltage": "Danach verbinde das Spannungs Kabel mit dem Spannungs-Bus des Steckbretts",
+      "power": "Außerdem verbinde das Netzteil mit der Niedervolt Buchse",
+      "plugin": "Stecke anschließend das Netzteil in die Steckdose"
+    },
+    "finished": {
+      "title": "5. Fertig"
+    },
+    "testing": {
+      "title": "6. Testen",
+      "type": "Mit folgende Befehlen kannst du den Strip leuchten lassen:",
+      "start": "<code>sudo pigpiod</code> - Startet PiGPIO",
+      "red": "<code>pigs p 17 255</code> - Der Rotanteil wird auf 100% gesetzt und die LED's sollten Rot leuchten",
+      "yellow": "<code>pigs p 22 128</code> - Der Grünanteil wird auf 50% gesetzt und die LED's sollten Gelb leuchten",
+      "purple": "<code>pigs p 24 128</code> - Der Blauanteil wird auf 50% gesetzt und die LED's sollten Lila leuchten"
+    },
+    "next": {
+      "title": "Was nun?",
+      "doeverything": "Jetzt kannst du so gut wie alles mit deinem LED Strip machen",
+      "python": "Zum Beispiel mit Python den LED-Strip leuchten lassen",
+      "brightness": "Die Helligkeit eines Pins kannst du mit den folgenden Befehlen setzen:",
+      "fading": "Um die LED's faden zu lassen habe ich außerdem ein kleines Skript programmiert:",
+      "pins": "Setze einfach die GPIO Pin Nummern der drei Farben ein",
+      "start": "Danach starte das Skript mit <code>python fading.py</code>",
+      "comments": "Ich hoffe dir hat diese Anleitung gefallen. Sollten Fragen oder Anmerkungen bestehen, schreibe einfach einen Kommentar.",
+      "contact": "Oder <a href=\"mailto:info@popoklopsi.de\">kontaktiere mich</a>, falls irgendwelche Fehler vorhanden sind."
+    }
+  }
+}

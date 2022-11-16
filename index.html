@@ -1,0 +1,633 @@
+<html>
+  <head lang="en">
+    <style type="text/css">
+      @charset "UTF-8";
+
+      [ng\:cloak],
+      [ng-cloak],
+      [data-ng-cloak],
+      [x-ng-cloak],
+      .ng-cloak,
+      .x-ng-cloak,
+      .ng-hide:not(.ng-hide-animate) {
+        display: none !important;
+      }
+
+      ng\:form {
+        display: block;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="raspberry pi led strip rgb smd5050 ws2812 ws2812b ws2811 neopixel controller 5050 pi-blaster pigpio pi2 gpio ServoBlaster Python light color" />
+    <meta name="description" content="Controlling a rgb led strip or a ws2812 (neopixel) strip with a raspberry pi" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="libs/clean-blog/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="libs/galleria/themes/classic/galleria.classic.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>How to control a RGB or a WS2812 LED Strip with a Raspberry Pi</title>
+    <link rel="prefetch" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.a6de6ea97286e24f0dd4753382b1e015.css" />
+    <link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.a0092a9b6d9c06bf965e6c41a81f2c09.js" />
+    <link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.5a2e28d99014bd8296f13769d50defae.js" />
+    <link rel="prefetch" as="script" href="https://disqus.com/next/config.js" />
+  </head>
+
+  <body>
+    <div data-ng-app="rpiLed" class="ng-scope">
+      <nav class="navbar navbar-default navbar-custom navbar-fixed-top ng-isolate-scope">
+        <div class="container-fluid">
+          <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav navbar-left">
+              <li></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="#/">RGB LED-Strip</a>
+              </li>
+              <li>
+                <a href="#/ws2812">WS2812 LED-Strip</a>
+              </li>
+              <li>
+                <a data-ng-click="switchLanguage('en')">English</a>
+              </li>
+              <li>
+                <a data-ng-click="switchLanguage('de')">German</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- uiView:  -->
+      <div data-ui-view="" class="ng-scope">
+        <header class="intro-header ng-isolate-scope" style="background-image: url(img/rgb/title.jpg)" data-translation-title="rgb.header.title" data-translation-subtitle="rgb.header.subtitle" data-image="img/rgb/title.jpg">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                  <h1 data-translate="rgb.header.title" class="ng-scope">
+                    Raspberry Pi &amp;<br />
+                    RGB LED-Strips
+                  </h1>
+
+                  <h2 data-translate="rgb.header.subtitle" class="ng-scope">Steuerung eines RGB LED-Strip mit einem Raspberry Pi</h2>
+                  <span class="meta">By <a href="#" target="_blank">Popoklopsi</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <article class="ng-isolate-scope">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 class="section-heading ng-scope" data-translate="rgb.intro.title">Einleitung</h2>
+                <hr />
+
+                <p data-translate="rgb.intro.text" class="ng-scope">Dieses Tutorial erklärt euch, wie man ein <strong>RGB LED-Strip</strong> mit dem Raspberry Pi steuert. Es sollte auf allen aktuellen Raspberry Pi Modellen laufen.</p>
+
+                <p data-translate="rgb.intro.responsible" class="ng-scope"><strong>Achtung:</strong> Ich bin nicht für Schäden an deinem LED-Strip oder Raspberry Pi verantworlich. <strong>Mach das auf eigenes Risiko!</strong></p>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.requirements.title">Was brauchst Du?</h2>
+                <hr />
+                <ul>
+                  <li data-translate="rgb.requirements.rgbled" class="ng-scope">
+                    Ein RGB LED Strip (<strong>mit 3 Pins für RGB und 1 Pin für 12V DC<strong>)</strong></strong>
+                  </li>
+                  <li data-translate="rgb.requirements.breadboard" class="ng-scope">Ein Steckbrett</li>
+                  <li data-translate="rgb.requirements.jumpmatofe" class="ng-scope">Steckbrücken (Male zu Female)</li>
+                  <li data-translate="rgb.requirements.jumpmatoma" class="ng-scope">Steckbrücken (Male zu Male)</li>
+                  <li data-translate="rgb.requirements.threemosfets" class="ng-scope">Drei MOSFET's (z.B <strong>IRLZ34N</strong>)</li>
+                  <li data-translate="rgb.requirements.powersupply" class="ng-scope">Ein Netzteil (<strong>12V DC ~2A</strong>)</li>
+                  <li>
+                    <span data-translate="rgb.requirements.powerjack" class="ng-scope">Eine Niedervolt Buchse</span>
+                    <ul>
+                      <li data-translate="rgb.requirements.fitto" class="ng-scope">Muss zum Netzteil Stecker passen</li>
+                      <li data-translate="rgb.requirements.withwires" class="ng-scope">Ich verwende eine mit Schrauben, damit ich es leichter verbinden kann</li>
+                    </ul>
+                  </li>
+                  <li data-translate="rgb.requirements.software" class="ng-scope">
+                    Die Software <a href="#" title="pigpio" target="_blank"><strong>pigpio</strong></a> auf dem Raspberry Pi installiert
+                  </li>
+                </ul>
+
+                <div class="img-responsive galleria requirements">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/requirement_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="The requirements to control the RGB LED-Strip with a Raspberry Pi" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">2</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 130px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px">
+                            <img src="img/rgb/thumb/requirement_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="The requirements to control the RGB LED-Strip with a Raspberry Pi" />
+                          </div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px">
+                            <img src="img/rgb/thumb/requirement_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="The requirements to control the RGB LED-Strip with a Raspberry Pi" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">The requirements to control the RGB LED-Strip with a Raspberry Pi</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.mosfet.connect">1. Die MOSFET's verbinden</h2>
+                <hr />
+                <ul>
+                  <li>
+                    <span data-translate="rgb.mosfet.look" class="ng-scope">Schaust du <strong>von vorne</strong> auf die MOSFETs</span>
+                    <ul>
+                      <li data-translate="rgb.mosfet.firstpin" class="ng-scope">ist der erste Pin von links der <strong>Gate</strong> Pin</li>
+                      <li data-translate="rgb.mosfet.secondpin" class="ng-scope">ist der zweite Pin der <strong>Drain</strong> Pin</li>
+                      <li data-translate="rgb.mosfet.thirdpin" class="ng-scope">ist der dritte Pin der <strong>Source</strong> Pin</li>
+                    </ul>
+                  </li>
+                  <li data-translate="rgb.mosfet.ontobreadboard" class="ng-scope">Stecke zuerst alle drei MOSFET's auf das Steckbrett</li>
+                  <li data-translate="rgb.mosfet.toground" class="ng-scope">Danach verbinde die Source Pins mit den Ground-Bus des Steckbretts</li>
+                </ul>
+
+                <div class="img-responsive galleria mosfet">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/mosfet_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="Connecting the MOSFET's to the breadboard" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">4</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 256px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/mosfet_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the MOSFET's to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/mosfet_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the MOSFET's to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/mosfet_3.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the MOSFET's to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 56px; height: 40px"><img src="img/rgb/thumb/mosfet_4.png" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 56px; height: 40px; position: absolute; top: 0px; left: 0px" width="56" height="40" alt="Connecting the MOSFET's to the breadboard" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">Connecting the MOSFET's to the breadboard</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.led.connect">2. Den LED-Strip verbinden</h2>
+                <hr />
+                <ul>
+                  <li data-translate="rgb.led.connectcolor" class="ng-scope">Verbinde für jede Farbe den <strong>Drain</strong> Pin mit der jeweiligen Farbe des LED-Strips</li>
+                  <li data-translate="rgb.led.supply" class="ng-scope">Stecke außerdem ein Kabel vom 12V Pin des LED-Strips zum Spannungs-Bus des Steckbretts</li>
+                </ul>
+
+                <div class="img-responsive galleria led">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/led_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="Connecting the LED-Strip to the breadboard" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">3</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 173px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/led_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the LED-Strip to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/led_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the LED-Strip to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 38px; height: 40px"><img src="img/rgb/thumb/led_3.png" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 38px; height: 40px; position: absolute; top: 0px; left: 0px" width="38" height="40" alt="Connecting the LED-Strip to the breadboard" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">Connecting the LED-Strip to the breadboard</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.pi.connect">3. Das Raspberry Pi verbinden</h2>
+                <hr />
+
+                <p data-translate="rgb.pi.pins" class="ng-scope">Hier ist eine Übersicht über die GPIO Pins des Raspberry Pi:</p>
+
+                <div class="img-responsive galleria gpio">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 550px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 480px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px 0px 0px 277px; z-index: 2; display: none; width: 147px; height: 480px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/gpio.png" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 147px; height: 480px; position: absolute; top: 0px; left: 277px; cursor: pointer" width="147" height="480" alt="The GPIO Pins of the Raspberry Pi" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">1</span></div>
+                      <div class="galleria-image-nav" style="position: absolute; left: -10000px">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 17px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 12px; height: 40px"><img src="img/rgb/thumb/gpio.png" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 12px; height: 40px; position: absolute; top: 0px; left: 0px" width="12" height="40" alt="The GPIO Pins of the Raspberry Pi" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">The GPIO Pins of the Raspberry Pi</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <ul>
+                  <li data-translate="rgb.pi.breadboard" class="ng-scope">Verbinde zuerst einen der Ground Pins mit dem Ground-Bus des Steckbretts</li>
+                  <li>
+                    <span data-translate="rgb.pi.connectcolor" class="ng-scope">Verbinde außerdem für jede Farbe einen der grünen Pins mit dem <strong>Gate</strong> Pin eines MOSFETs</span>
+                    <ul>
+                      <li>
+                        <span data-translate="rgb.pi.hereused" class="ng-scope">Ich werde folgende Pins benutzen:</span>
+                        <ul>
+                          <li data-translate="rgb.pi.forred" class="ng-scope"><strong>GPIO17</strong> für Rot</li>
+                          <li data-translate="rgb.pi.forgreen" class="ng-scope"><strong>GPIO22</strong> für Grün</li>
+                          <li data-translate="rgb.pi.forblue" class="ng-scope"><strong>GPIO24</strong> für Blau</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <div class="img-responsive galleria pi">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/pi_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="Connecting the Raspberry Pi to the breadboard" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">4</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 265px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/pi_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the Raspberry Pi to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/pi_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the Raspberry Pi to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/pi_3.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the Raspberry Pi to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 65px; height: 40px"><img src="img/rgb/thumb/pi_4.png" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 65px; height: 40px; position: absolute; top: 0px; left: 0px" width="65" height="40" alt="Connecting the Raspberry Pi to the breadboard" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">Connecting the Raspberry Pi to the breadboard</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.power.connect">4. Die Niedervolt Buchse verbinden</h2>
+                <hr />
+                <ul>
+                  <li data-translate="rgb.power.fasten" class="ng-scope">Verschraube ein Kabel mit dem Ground und eines mit dem Spannungskontakt der Buchse</li>
+                  <li data-translate="rgb.power.ground" class="ng-scope">Verbinde das Ground Kabel mit dem Ground-Bus des Steckbretts</li>
+                  <li data-translate="rgb.power.voltage" class="ng-scope">Danach verbinde das Spannungs Kabel mit dem Spannungs-Bus des Steckbretts</li>
+                  <li data-translate="rgb.power.power" class="ng-scope">Außerdem verbinde das Netzteil mit der Niedervolt Buchse</li>
+                  <li data-translate="rgb.power.plugin" class="ng-scope">Stecke anschließend das Netzteil in die Steckdose</li>
+                </ul>
+
+                <div class="img-responsive galleria power">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/power_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="Connecting the power supply to the breadboard" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">3</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 220px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/power_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the power supply to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/power_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Connecting the power supply to the breadboard" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 85px; height: 40px"><img src="img/rgb/thumb/power_3.png" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 85px; height: 40px; position: absolute; top: 0px; left: 0px" width="85" height="40" alt="Connecting the power supply to the breadboard" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">Connecting the power supply to the breadboard</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.finished.title">5. Fertig</h2>
+                <hr />
+
+                <div class="img-responsive galleria finished">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/finished_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="The finished system" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">2</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 130px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/finished_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="The finished system" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/finished_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="The finished system" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">The finished system</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.testing.title">6. Testen</h2>
+                <hr />
+                <ul>
+                  <li>
+                    <span data-translate="rgb.testing.type" class="ng-scope">Mit folgende Befehlen kannst du den Strip leuchten lassen:</span>
+                    <ul>
+                      <li data-translate="rgb.testing.start" class="ng-scope"><code>sudo pigpiod</code> - Startet PiGPIO</li>
+                      <li data-translate="rgb.testing.red" class="ng-scope"><code>pigs p 17 255</code> - Der Rotanteil wird auf 100% gesetzt und die LED's sollten Rot leuchten</li>
+                      <li data-translate="rgb.testing.yellow" class="ng-scope"><code>pigs p 22 128</code> - Der Grünanteil wird auf 50% gesetzt und die LED's sollten Gelb leuchten</li>
+                      <li data-translate="rgb.testing.purple" class="ng-scope"><code>pigs p 24 128</code> - Der Blauanteil wird auf 50% gesetzt und die LED's sollten Lila leuchten</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <div class="img-responsive galleria testing">
+                  <div class="galleria-container notouch galleria-theme-classic" style="width: 720px; height: 450px">
+                    <div class="galleria-stage">
+                      <div class="galleria-images" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%">
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; transition: none 0s ease 0s; opacity: 0; z-index: 0">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                        </div>
+                        <div class="galleria-image" style="overflow: hidden; position: absolute; top: 0px; left: 0px; opacity: 1; width: 700px; height: 380px; transition: none 0s ease 0s; z-index: 1">
+                          <div class="galleria-layer" style="position: absolute; inset: 0px; z-index: 2; display: none; width: 700px; height: 468px"></div>
+                          <div class="galleria-frame" style="overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 4; background: rgb(0, 0, 0); display: none"></div>
+                          <img src="img/rgb/small/testing_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 700px; height: 468px; position: absolute; top: -44px; left: 0px; cursor: pointer" width="700" height="468" alt="Testing the system - red color" />
+                        </div>
+                      </div>
+                      <div class="galleria-loader" style="display: none; opacity: 0.4"></div>
+                      <div class="galleria-counter" style="opacity: 0; transition: none 0s ease 0s"><span class="galleria-current">1</span> / <span class="galleria-total">3</span></div>
+                      <div class="galleria-image-nav">
+                        <div class="galleria-image-nav-right" style="right: -50px; transition: none 0s ease 0s"></div>
+                        <div class="galleria-image-nav-left" style="left: -50px; transition: none 0s ease 0s"></div>
+                      </div>
+                      <div class="galleria-fscr" style="opacity: 0; transition: none 0s ease 0s"></div>
+                    </div>
+                    <div class="galleria-thumbnails-container">
+                      <div class="galleria-thumb-nav-left disabled"></div>
+                      <div class="galleria-thumbnails-list" style="overflow: hidden; position: relative">
+                        <div class="galleria-thumbnails" style="overflow: hidden; position: relative; width: 195px; height: 40px">
+                          <div class="galleria-image active" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/testing_1.jpg" style="display: block; opacity: 1; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Testing the system - red color" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/testing_2.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Testing the system - green color" /></div>
+                          <div class="galleria-image" style="overflow: hidden; position: relative; visibility: visible; width: 60px; height: 40px"><img src="img/rgb/thumb/testing_3.jpg" style="display: block; opacity: 0.6; min-width: 0px; min-height: 0px; max-width: none; max-height: none; transform: translate3d(0px, 0px, 0px); width: 60px; height: 40px; position: absolute; top: 0px; left: 0px" width="60" height="40" alt="Testing the system - blue color" /></div>
+                        </div>
+                      </div>
+                      <div class="galleria-thumb-nav-right disabled"></div>
+                    </div>
+                    <div class="galleria-info" style="position: absolute; left: -10000px">
+                      <div class="galleria-info-text">
+                        <div class="galleria-info-title" style="display: none"></div>
+                        <div class="galleria-info-description">Testing the system - red color</div>
+                      </div>
+                      <div class="galleria-info-link"></div>
+                      <div class="galleria-info-close"></div>
+                    </div>
+                    <div class="galleria-tooltip" style="opacity: 0"></div>
+                  </div>
+                </div>
+                <span class="caption"></span>
+
+                <h2 class="section-heading ng-scope" data-translate="rgb.next.title">Was nun?</h2>
+                <hr />
+                <ul>
+                  <li>
+                    <span data-translate="rgb.next.doeverything" class="ng-scope">Jetzt kannst du so gut wie alles mit deinem LED Strip machen</span>
+                    <ul>
+                      <li data-translate="rgb.next.python" class="ng-scope">Zum Beispiel mit Python den LED-Strip leuchten lassen</li>
+                      <li>
+                        <span data-translate="rgb.next.brightness" class="ng-scope">Die Helligkeit eines Pins kannst du mit den folgenden Befehlen setzen:</span>
+                        <ul>
+                          <li><code>import pigpio</code></li>
+                          <li><code>pi = pigpio.pi()</code></li>
+                          <li><code>pi.set_PWM_dutycycle(PIN, BRIGHTNESS)</code></li>
+                          <li><code>…</code></li>
+                          <li><code>pi.stop()</code></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <span data-translate="rgb.next.fading" class="ng-scope">Um die LED's faden zu lassen habe ich außerdem ein kleines Skript programmiert:</span>
+                        <a href="https://github.com/popoklopsi/RaspberryPi-LedStrip/blob/master/fading.py" title="Python Fading" target="_blank">Fading.py </a>
+                        <ul>
+                          <li data-translate="rgb.next.pins" class="ng-scope">Setze einfach die GPIO Pin Nummern der drei Farben ein</li>
+                          <li data-translate="rgb.next.start" class="ng-scope">Danach starte das Skript mit <code>python fading.py</code></li>
+                        </ul>
+                      </li>
+                      <li>
+                        Überprüfen Sie den <a href="https://coindataflow.com/de/aktie/NSRGY">nestle aktie kurs</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <p data-translate="rgb.next.comments" class="ng-scope">Ich hoffe dir hat diese Anleitung gefallen. Sollten Fragen oder Anmerkungen bestehen, schreibe einfach einen Kommentar.</p>
+
+                <p data-translate="ws2812.next.contact" class="ng-scope">Oder kontaktiere mich, falls irgendwelche Fehler vorhanden sind.</p>
+
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <hr />
+      <footer class="ng-isolate-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <p class="copyright text-muted">Copyright © Popoklopsi 2015</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="libs/jquery/jquery-2.1.3.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/clean-blog/js/clean-blog.min.js"></script>
+    <script src="libs/galleria/galleria-1.4.2.min.js"></script>
+    <script src="libs/galleria/themes/classic/galleria.classic.min.js"></script>
+  </body>
+</html>

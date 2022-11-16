@@ -1,0 +1,92 @@
+.nav a {
+    cursor: pointer;
+}
+
+.nav a:focus {
+    outline: 0;
+}
+
+.galleria {
+    height: 570px;
+    background: #000;
+}
+
+.galleria.gpio {
+    height: 700px;
+}
+
+.galleria-counter {
+    left: 30px !important;
+}
+
+.galleria-fscr {
+    position: absolute;
+    left: 5px;
+    font-family: "Glyphicons Halflings";
+    color: #fff;
+    bottom: 7px;
+    z-index: 1;
+    opacity: .4;
+    cursor: pointer;
+}
+
+.galleria-fscr:before {
+    content: "\e140";
+}
+
+.galleria-fscr:hover {
+    opacity: 1 !important;
+}
+
+.social {
+    text-align: center;
+    font-size: 1px;
+}
+
+.social .facebook div span {
+    vertical-align: middle;
+}
+
+.social div {
+    display: inline-block;
+    width: 110px;
+    text-align: left;
+}
+
+.social div.facebook_like {
+    width: 133px;
+}
+
+.social div.twitter {
+    width: 98px;
+}
+
+a {
+    color: #0085a1;
+}
+
+@media screen and (min-width: 993px) {
+    .ws2812-header {
+        background-position: center top !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .galleria {
+        height: 450px
+    }
+
+    .galleria.gpio {
+        height: 550px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .galleria {
+        height: 350px
+    }
+
+    .galleria.gpio {
+        height: 450px;
+    }
+}

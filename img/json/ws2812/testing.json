@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/testing_1.jpg",
+    "image": "img/ws2812/small/testing_1.jpg",
+    "big": "img/ws2812/testing_1.jpg",
+    "description": "Testing the system - strandtest"
+  },
+  {
+    "thumb": "img/ws2812/thumb/testing_2.jpg",
+    "image": "img/ws2812/small/testing_2.jpg",
+    "big": "img/ws2812/testing_2.jpg",
+    "description": "Testing the system - strandtest"
+  },
+  {
+    "thumb": "img/ws2812/thumb/testing_3.jpg",
+    "image": "img/ws2812/small/testing_3.jpg",
+    "big": "img/ws2812/testing_3.jpg",
+    "description": "Testing the system - strandtest"
+  }
+]

@@ -1,0 +1,8 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/gpio.png",
+    "image": "img/ws2812/small/gpio.png",
+    "big": "img/ws2812/gpio.png",
+    "description": "The GPIO Pins of the Raspberry Pi"
+  }
+]

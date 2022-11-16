@@ -1,0 +1,14 @@
+[
+  {
+    "thumb": "img/ws2812/thumb/power_1.jpg",
+    "image": "img/ws2812/small/power_1.jpg",
+    "big": "img/ws2812/power_1.jpg",
+    "description": "Connecting the power supply to the breadboard"
+  },
+  {
+    "thumb": "img/ws2812/thumb/power_2.png",
+    "image": "img/ws2812/small/power_2.png",
+    "big": "img/ws2812/power_2.png",
+    "description": "Connecting the power supply to the breadboard"
+  }
+]

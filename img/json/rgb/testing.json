@@ -1,0 +1,20 @@
+[
+  {
+    "thumb": "img/rgb/thumb/testing_1.jpg",
+    "image": "img/rgb/small/testing_1.jpg",
+    "big": "img/rgb/testing_1.jpg",
+    "description": "Testing the system - red color"
+  },
+  {
+    "thumb": "img/rgb/thumb/testing_2.jpg",
+    "image": "img/rgb/small/testing_2.jpg",
+    "big": "img/rgb/testing_2.jpg",
+    "description": "Testing the system - green color"
+  },
+  {
+    "thumb": "img/rgb/thumb/testing_3.jpg",
+    "image": "img/rgb/small/testing_3.jpg",
+    "big": "img/rgb/testing_3.jpg",
+    "description": "Testing the system - blue color"
+  }
+]

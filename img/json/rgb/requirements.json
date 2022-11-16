@@ -1,0 +1,14 @@
+[
+  {
+    "thumb": "img/rgb/thumb/requirement_1.jpg",
+    "image": "img/rgb/small/requirement_1.jpg",
+    "big": "img/rgb/requirement_1.jpg",
+    "description": "The requirements to control the RGB LED-Strip with a Raspberry Pi"
+  },
+  {
+    "thumb": "img/rgb/thumb/requirement_2.jpg",
+    "image": "img/rgb/small/requirement_2.jpg",
+    "big": "img/rgb/requirement_2.jpg",
+    "description": "The requirements to control the RGB LED-Strip with a Raspberry Pi"
+  }
+]

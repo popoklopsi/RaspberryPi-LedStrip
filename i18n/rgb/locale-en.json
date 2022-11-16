@@ -1,0 +1,80 @@
+{
+  "rgb": {
+    "header": {
+      "title": "Raspberry Pi &<br /> RGB LED-Strips",
+      "subtitle": "Controlling a RGB LED-Strip with a Raspberry Pi"
+    },
+    "intro": {
+      "title": "Introduction",
+      "text": "This tutorial will explain how to control a RGB LED-Strip with a Raspberry Pi. It should work on all current Raspberry Pi boards.",
+      "responsible": "<strong>Attention:</strong> I'm not responsible for any damage to your LED-Strip or Raspberry Pi. <strong>Do this at your own risk!</strong>"
+    },
+    "requirements": {
+      "title": "What do you need?",
+      "rgbled": "A RGB LED Strip (<strong>with 3 pins for RGB and 1 pin for 12V DC</strong>)",
+      "breadboard": "A breadboard",
+      "jumpmatofe": "Jumper wires (Male to Female)",
+      "jumpmatoma": "Jumper wires (Male to Male)",
+      "threemosfets": "Three MOSFET's (e.g <strong>IRLZ34N</strong>)",
+      "powersupply": "A power supply (<strong>12V DC ~2A</strong>)",
+      "powerjack": "A power jack",
+      "fitto": "Has to fit with the power supply",
+      "withwires": "I use one with screws so I can connect the wires easier",
+      "software": "The software <a href=\"http://abyz.co.uk/rpi/pigpio/download.html\" title=\"pigpio\" target=\"_blank\"><strong>pigpio</strong></a> installed on the Raspberry Pi"
+    },
+    "mosfet": {
+      "connect": "1. Connecting the MOSFET's",
+      "look": "When you look <strong>from the front</strong> of the MOSFET's",
+      "firstpin": "the first pin from left is the <strong>Gate</strong> pin",
+      "secondpin": "the second pin is the <strong>Drain</strong> pin",
+      "thirdpin": "the third pin is the <strong>Source</strong> pin",
+      "ontobreadboard": "At first put the three MOSFET's in the breadboard",
+      "toground": "Then connect the source pins to the ground bus of the breadboard"
+    },
+    "led": {
+      "connect": "2. Connecting the LED-Strip",
+      "connectcolor": "Connect for each color the <strong>Drain</strong> pin to the associated color of the LED-Strip",
+      "supply": "Also put a wire from the 12V pin of the LED-Strip in the supply voltage bus of the breadboard"
+    },
+    "pi": {
+      "connect": "3. Connecting the Raspberry Pi",
+      "pins": "Here is a overview over the GPIO pins of the Raspberry Pi:",
+      "breadboard": "At first connect one of the ground pins to the ground bus of the breadboard",
+      "connectcolor": "Also connect for each color one of the green pins to the <strong>Gate</strong> pin of a MOSFET",
+      "hereused": "I will use the following pins:",
+      "forred": "<strong>GPIO17</strong> for Red",
+      "forgreen": "<strong>GPIO22</strong> for Green",
+      "forblue": "<strong>GPIO24</strong> for Blue"
+    },
+    "power": {
+      "connect": "4. Connecting the power jack",
+      "fasten": "Fasten one wire with the ground and one with the voltage contact of the power jack in place",
+      "ground": "Connect the ground wire to the ground bus of the breadboard",
+      "voltage": "Then connect the voltage wire to the voltage bus of the breadboard",
+      "power": "Also connect the power supply to the power jack",
+      "plugin": "Now the power supply can be plugged into the outlet"
+    },
+    "finished": {
+      "title": "5. Finished"
+    },
+    "testing": {
+      "title": "6. Testing",
+      "type": "You can turn on the LED's with the following commands:",
+      "start": "<code>sudo pigpiod</code> - Starting PiGPIO",
+      "red": "<code>pigs p 17 255</code> - The red part will be set up to 100% and the LED's should be red",
+      "yellow": "<code>pigs p 22 128</code> - The green part will be set up to 50% and the LED's should be yellow",
+      "purple": "<code>pigs p 24 128</code> - The blue part will be set up to 50% and the LED's should be purple"
+    },
+    "next": {
+      "title": "What's next?",
+      "doeverything": "Now you can do nearly everything with your LED-Strip",
+      "python": "For example controlling the LED-Strip with Python",
+      "brightness": "You can set the brightness of a pin with the following commands:",
+      "fading": "I also made a small script for fading the LED's:",
+      "pins": "Just set the GPIO pin numbers of the three colors",
+      "start": "Then start the script with <code>python fading.py</code>",
+      "comments": "I hope you liked this tutorial. Should there be any question or remark, feel free to leave a comment.",
+      "contact": "Or <a href=\"mailto:info@popoklopsi.de\">contact me</a>, if there are any mistakes."
+    }
+  }
+}
